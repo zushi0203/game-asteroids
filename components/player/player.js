@@ -1,12 +1,11 @@
-import * as ENV from "../../common/env.js";
+import * as ENV from "../../env.js";
 import {handleEdgeOfScreen, checkCollision} from "../../utils/index.js"; 
-import {drawPlayer, drawExplosionPlayer} from "./playerDraw.js"; 
-import {updatePlayerLaser, shootLaser} from "./playerShoot.js";
+import {drawPlayer, drawExplosionPlayer} from "./playerDraw.js";
 import {playerExplode, setExplodeTime} from "./playerExplode.js";
-import {enemyExplode} from "../enemy/enemyExplode.js";
-import { levelUp } from "../game/game.js";
+// import {enemyExplode} from "../enemy/enemyExplode.js";
+import {Laser} from "../Laser/Laser.js";
 
-let player;
+let player = {};
 export const getPlayer = () => player; // 現在のplayerを取得します
 
 // ================================================
@@ -15,21 +14,22 @@ export const getPlayer = () => player; // 現在のplayerを取得します
 //
 // ================================================
 
+export const isPlayerActive = () => Object.keys(player).length;
 export const isPlayerBlink = () => player.blinkNum > 0;
 export const isPlayerExploding = () => player.explodeTime > 0;
-const isPlayerDead = () => player.dead;
-const checkEnemiesCollision = (enemies) => {
-  if(isPlayerBlink() || isPlayerExploding()) return;
-
-  enemies.forEach((enemy, enemyIndex) => {
-    const isCollision = checkCollision(player.x, player.y, enemy.x, enemy.y) < player.r + enemy.r;
-    if(isCollision) {
-      console.log("collision")
-      playerExplode(player);
-      enemyExplode(enemies, enemyIndex);
-    }
-  });
-}
+export const isPlayerDead = () => player.dead;
+// const checkEnemiesCollision = (enemies) => {
+//   if(isPlayerBlink() || isPlayerExploding()) return;
+//
+//   enemies.forEach((enemy, enemyIndex) => {
+//     const isCollision = checkCollision(player.x, player.y, enemy.x, enemy.y) < player.r + enemy.r;
+//     if(isCollision) {
+//       console.log("collision")
+//       playerExplode(player);
+//       enemyExplode(enemies, enemyIndex);
+//     }
+//   });
+// }
 
 
 
@@ -87,7 +87,7 @@ const disablePlayerRotate = () => {
   player.rotate = 0;
 }
 
-// can shoot
+// can Laser
 const enableCanShoot = () => {
   player.canShoot = true;
 }
@@ -139,6 +139,19 @@ export const continuePlayer = (lives) => {
   player = continuePlayer;
 }
 
+export const shootLaser = () => {
+  // create the laser object
+  if(player.canShoot && player.lasers.length < ENV.LASER_MAX) {
+    const laser = new Laser(player);
+    player.lasers.push(laser);
+  }
+  // prevent further shooting
+  player.canShoot = false;
+  console.log("shoot", player.lasers);
+}
+
+
+
 // ================================================
 //
 // update function
@@ -178,13 +191,15 @@ export const updatePlayer = (enemies) => {
   handleEdgeOfScreen(player);
 
   // update laser
-  updatePlayerLaser(player);
+  player.lasers.forEach((laser, index) => {
+    if(laser.isDead()) {
+      player.lasers.splice(index, 1);
+    } else {
+      laser.update(player)
+    }
+  });
 
-  if(enemies.length == 0) {
-    // levelUp();
-  } else {
-    checkEnemiesCollision(enemies);
-  }
+  // checkEnemiesCollision(enemies);
 }
 
 
@@ -201,6 +216,7 @@ export const updatePlayer = (enemies) => {
  * @returns 
  */
 export const playerHandleKeyDown = (/** @type {KeyboardEvent} */ ev) => {
+  if(!isPlayerActive()) return;
   if(isPlayerDead()) return;
 
   switch(ev.code) {
@@ -208,7 +224,7 @@ export const playerHandleKeyDown = (/** @type {KeyboardEvent} */ ev) => {
       playerExplode(player);
       break;
     case "Space": // space bar (allow shooting again)
-      shootLaser(player);
+      shootLaser();
       disableCanShoot();
       break;
     case "ArrowLeft": // left arrow (rotate param.player left)

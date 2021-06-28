@@ -1,4 +1,4 @@
-import * as ENV from "../../common/env.js";
+import * as ENV from "../../env.js";
 
 export const setBackground = () => {
   ENV.ctx.fillStyle = "black";
