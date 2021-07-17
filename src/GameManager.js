@@ -1,10 +1,10 @@
 import * as ENV from "./env.js"
 import {SceneManager} from "./SceneManager.js";
-import {scene} from "./scene/scene.js";
+import {scenes} from "./scenes/scenes.js";
 import {
   playerHandleKeyDown,
   playerHandleKeyup
-} from "./components/player/player.js";
+} from "./components/Player/Player.js";
 
 /**
  *
@@ -32,9 +32,9 @@ export class GameManager {
 
   setupScene() {
     this.scene.init();
-    Object.keys(scene).forEach((key) => {
+    Object.keys(scenes).forEach((key) => {
       this.scene.add(key, () => {
-        scene[key](this.state, this.scene);
+        scenes[key](this.state, this.scene);
       });
     })
   }
@@ -43,7 +43,6 @@ export class GameManager {
     ENV.canvas.oncontextmenu = (ev) => {
       ev.preventDefault();
     }
-    document.addEventListener("click", () => { console.log("click") });
     document.addEventListener("keydown", (ev) => {
       console.log("keydown");
       if(ev.code == "KeyR") {

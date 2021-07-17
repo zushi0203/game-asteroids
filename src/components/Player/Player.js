@@ -1,8 +1,8 @@
 import * as ENV from "../../env.js";
-import {handleEdgeOfScreen, checkCollision} from "../../utils/index.js"; 
-import {drawPlayer, drawExplosionPlayer} from "./playerDraw.js";
-import {playerExplode, setExplodeTime} from "./playerExplode.js";
-// import {enemyExplode} from "../enemy/enemyExplode.js";
+import {handleEdgeOfScreen, checkCollision} from "../../utils";
+import {drawPlayer, drawExplosionPlayer} from "./PlayerDraw.js";
+import {playerExplode, setExplodeTime} from "./PlayerExplode.js";
+// import {explodedEnemies} from "../Enemy/ExplodedEnemies.js";
 import {Laser} from "../Laser/Laser.js";
 
 let player = {};
@@ -18,19 +18,6 @@ export const isPlayerActive = () => Object.keys(player).length;
 export const isPlayerBlink = () => player.blinkNum > 0;
 export const isPlayerExploding = () => player.explodeTime > 0;
 export const isPlayerDead = () => player.dead;
-// const checkEnemiesCollision = (enemies) => {
-//   if(isPlayerBlink() || isPlayerExploding()) return;
-//
-//   enemies.forEach((enemy, enemyIndex) => {
-//     const isCollision = checkCollision(player.x, player.y, enemy.x, enemy.y) < player.r + enemy.r;
-//     if(isCollision) {
-//       console.log("collision")
-//       playerExplode(player);
-//       enemyExplode(enemies, enemyIndex);
-//     }
-//   });
-// }
-
 
 
 // ================================================
@@ -40,15 +27,15 @@ export const isPlayerDead = () => player.dead;
 // ================================================
 
 const setPlayerPosition = () => {
-  // rotate param.player
+  // rotate param.Player
   player.a += player.rotate;
 
-  // move the param.player
+  // move the param.Player
   player.x += player.thrust.x;
   player.y += player.thrust.y;
 }
 const setPlayerThrust = () => {
-  // thrust the player
+  // thrust the Player
   if (player.thrusting && !player.dead) {
     player.thrust.x += ENV.SHIP_THRUST * Math.cos(player.a) / ENV.FPS;
     player.thrust.y -= ENV.SHIP_THRUST * Math.sin(player.a) / ENV.FPS;
@@ -104,7 +91,7 @@ export const setPlayerDead = () => {
 
 // ================================================
 //
-// player functions
+// Player functions
 //
 // ================================================
 
@@ -140,7 +127,7 @@ export const continuePlayer = (lives) => {
 }
 
 export const shootLaser = () => {
-  // create the laser object
+  // create the Laser object
   if(player.canShoot && player.lasers.length < ENV.LASER_MAX) {
     const laser = new Laser(player);
     player.lasers.push(laser);
@@ -164,7 +151,7 @@ export const updatePlayer = (enemies) => {
   if(!isContinue) setPlayerDead();
   if(player.dead) return;
 
-  // const isPlayerExploding = player.explodeTime > 0;
+  // const isPlayerExploding = Player.explodeTime > 0;
   const isPlayerBlinkOn = player.blinkNum % 2 === 0;
 
   // set position
@@ -173,7 +160,7 @@ export const updatePlayer = (enemies) => {
     setPlayerPosition();
   }
   
-  // draw player
+  // draw Player
   if(isPlayerExploding()) {
     drawExplosionPlayer(player);
     setExplodeTime(player);
@@ -190,7 +177,7 @@ export const updatePlayer = (enemies) => {
   //
   handleEdgeOfScreen(player);
 
-  // update laser
+  // update Laser
   player.lasers.forEach((laser, index) => {
     if(laser.isDead()) {
       player.lasers.splice(index, 1);
@@ -227,13 +214,13 @@ export const playerHandleKeyDown = (/** @type {KeyboardEvent} */ ev) => {
       shootLaser();
       disableCanShoot();
       break;
-    case "ArrowLeft": // left arrow (rotate param.player left)
+    case "ArrowLeft": // left arrow (rotate param.Player left)
       enablePlayerRotate();
       break;
-    case "ArrowUp": // up arrow (param.player thrusting)
+    case "ArrowUp": // up arrow (param.Player thrusting)
       enablePlayerThrusting();
       break;
-    case "ArrowRight": // right arrow (rotate param.player right)
+    case "ArrowRight": // right arrow (rotate param.Player right)
       enablePlayerRotate(-1);
       break;
   }
@@ -249,16 +236,16 @@ export const playerHandleKeyup = (/** @type {KeyboardEvent} */ ev) => {
   
   switch(ev.code) {
     case "Space": // space bar (allow shooting again)
-      // param.player.canShoot = true;
+      // param.Player.canShoot = true;
       enableCanShoot();
       break;
-    case "ArrowLeft": // left arrow (rotate param.player left)
+    case "ArrowLeft": // left arrow (rotate param.Player left)
       disablePlayerRotate();
       break;
-    case "ArrowUp": // up arrow (param.player thrusting)
+    case "ArrowUp": // up arrow (param.Player thrusting)
       disablePlayerThrusting();
       break;
-    case "ArrowRight": // right arrow (rotate param.player right)
+    case "ArrowRight": // right arrow (rotate param.Player right)
       disablePlayerRotate();
       break;
   }

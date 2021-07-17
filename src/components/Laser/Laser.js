@@ -1,5 +1,5 @@
 import * as ENV from "../../env.js";
-import {handleEdgeOfScreen} from "../../utils/index.js";
+import {handleEdgeOfScreen} from "../../utils";
 export class Laser {
 	constructor(character) {
 		this.param = {};
@@ -21,15 +21,15 @@ export class Laser {
 
 	// characterLaserLoop = (character) => {
 	// 	// loop over the lasers
-	// 	character.lasers.forEach((laser, laserIndex) => {
-	// 		// grab the laser properties
+	// 	character.lasers.forEach((Laser, laserIndex) => {
+	// 		// grab the Laser properties
 	// 		const lx = this.param.x;
 	// 		const ly = this.param.y;
 	//
 	// 		// detect hits
 	// 		if(this.param.explodeTime !== 0) return;
 	// 		if(distBetweenPoints(ax, ay, lx, ly) < ar) {
-	// 			// destroy the enemy and activate the laser explosion
+	// 			// destroy the Enemy and activate the Laser explosion
 	// 			// destroyAsteenemy(enemyIndex);
 	// 			this.param.explodeTime = Math.ceil(ENV.LASER_EXPLODE_DUR * ENV.FPS);
 	// 		}
@@ -75,12 +75,12 @@ export class Laser {
 		if(isLaserExploding) {
 			// this.param.explodeTime--;
 			//
-			// // destroy the laser after the duration is up
+			// // destroy the Laser after the duration is up
 			// if(this.param.explodeTime == 0) {
 			// 	character.lasers.splice(index, 1);
 			// }
 		} else {
-			// move the laser
+			// move the Laser
 			this.param.x += this.param.xv;
 			this.param.y += this.param.yv;
 		}

@@ -1,5 +1,5 @@
 import * as ENV from "../../env.js";
-import { continuePlayer } from "./player.js";
+import { continuePlayer } from "./Player.js";
 
 export const playerExplode = (player) => {
   if(!player) return;

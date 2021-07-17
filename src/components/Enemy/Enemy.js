@@ -1,16 +1,16 @@
 import * as ENV from "../../env.js";
-import {handleEdgeOfScreen, distBetweenPoints} from "../../utils/index.js";
-import { drawEnemy } from "./enemyDraw.js";
-import {getPlayer} from "../player/player.js";
+import {handleEdgeOfScreen, distBetweenPoints} from "../../utils";
+import { enemyDraw } from "./EnemyDraw.js";
+import {explodedEnemies} from "./ExplodedEnemies";
 
 /**
  * 敵キャラクターを生成するクラスです
  */
 export class Enemy {
-  constructor(level) {
+  constructor(level, player, enemyParam) {
     this.param;
     this.level = level;
-    this.initialize();
+    this.initialize(player, enemyParam);
   }
 
   createParam(x, y, r) {
@@ -33,26 +33,34 @@ export class Enemy {
     return enemy;
   }
 
-  initialize() {
+  initialize(player, enemyParam) {
     let x;
     let y;
+    let size;
 
-    const player = getPlayer();
+    console.log(player);
 
-    // 初期位置がプレイヤーから離れるまでwhile処理
-    do {
-      x = Math.floor(Math.random() * ENV.canvas.width);
-      y = Math.floor(Math.random() * ENV.canvas.height);
-    } while (
-      distBetweenPoints(player.x, player.y, x, y) < ENV.ENEMIES_SIZE * 2 + player.r
-    );
+    if(player === false) {
+      x = enemyParam.posX;
+      y = enemyParam.posY;
+      size = enemyParam.size;
+    } else {
+      // 初期位置がプレイヤーから離れるまでwhile処理
+      do {
+        x = Math.floor(Math.random() * ENV.canvas.width);
+        y = Math.floor(Math.random() * ENV.canvas.height);
+      } while (
+        distBetweenPoints(player.x, player.y, x, y) < ENV.ENEMIES_SIZE * 2 + player.r
+      );
+      size = Math.ceil(ENV.ENEMIES_SIZE / 2);
+    }
 
-    const param = this.createParam(x, y, Math.ceil(ENV.ENEMIES_SIZE / 2));
+    const param = this.createParam(x, y, size);
     this.param = param;
   }
 
   draw() {
-    drawEnemy(this.param);
+    enemyDraw(this.param);
   }
 
   // drawDestroy() {
