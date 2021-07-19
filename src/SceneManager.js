@@ -2,6 +2,7 @@ export class SceneManager {
   constructor() {
     this.scene = {};
     this.currentScene = null;
+    this.currentSceneName = null;
     this.startTime = null;
     // 実行された現在のシーンをカウント
     this.countCurrentScenePerformed = null;
@@ -25,9 +26,14 @@ export class SceneManager {
 
     // アクティブシーンにセット
     this.currentScene = this.scene[name];
+    this.currentSceneName = name;
 
     this.startTime = Date.now();
     this.countCurrentScenePerformed = -1;
+  }
+
+  get getCurrentSceneName() {
+    return this.currentSceneName;
   }
 
   update() {

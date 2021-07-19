@@ -1,8 +1,11 @@
 import * as ENV from "../../env.js";
-import {handleEdgeOfScreen, checkCollision} from "../../utils";
-import {drawPlayer, drawExplosionPlayer} from "./PlayerDraw.js";
-import {playerExplode, setExplodeTime} from "./PlayerExplode.js";
-// import {explodedEnemies} from "../Enemy/ExplodedEnemies.js";
+import {
+  handleEdgeOfScreen,
+  calcTwoPointDistance,
+  calcTwoPointRadian
+} from "../../utils";
+import {drawPlayer, drawExplosionPlayer} from "./functions/playerDraw.js";
+import {playerExplode, setExplodeTime} from "./functions/playerExplode.js";
 import {Laser} from "../Laser/Laser.js";
 
 let player = {};
@@ -26,6 +29,9 @@ export const isPlayerDead = () => player.dead;
 //
 // ================================================
 
+const setPlayerTargetPosition = (targetPosition) => {
+  player.targetPosition = targetPosition;
+}
 const setPlayerPosition = () => {
   // rotate param.Player
   player.a += player.rotate;
@@ -54,6 +60,10 @@ const setBlink = () => {
     player.blinkTime = Math.ceil(ENV.SHIP_BLINK_DUR * ENV.FPS);
     player.blinkNum--;
   }
+}
+
+const setPlayerAngle = (radian) => {
+  player.a = radian;
 }
 
 // thrusting
@@ -101,6 +111,10 @@ export const newPlayer = () => {
     y: ENV.canvas.height / 2, // center
     r: ENV.SHIP_SIZE / 2,
     a: 90 / 180 * Math.PI, // convert to radians
+    targetPosition: {
+      x: null,
+      y: null,
+    },
     blinkNum: Math.ceil(ENV.SHIP_INV_DUR / ENV.SHIP_BLINK_DUR),
     blinkTime: Math.ceil(ENV.SHIP_BLINK_DUR * ENV.FPS),
     canShoot: true,
@@ -145,7 +159,7 @@ export const shootLaser = () => {
 //
 // ================================================
 
-export const updatePlayer = (enemies) => {
+export const updatePlayer = () => {
   const isContinue = player.lives > 0;
 
   if(!isContinue) setPlayerDead();
@@ -249,4 +263,20 @@ export const playerHandleKeyup = (/** @type {KeyboardEvent} */ ev) => {
       disablePlayerRotate();
       break;
   }
+}
+
+export const playerHandleClick = (/** @type {KeyboardEvent} */ ev) => {
+  if (isPlayerDead()) return;
+  console.log("playerHandle: click");
+  const clickPosition = {
+    x: ev.layerX,
+    y: ev.layerY
+  }
+  setPlayerTargetPosition(clickPosition);
+
+
+  const distance = calcTwoPointDistance(player.x, player.targetPosition.x, player.y, player.targetPosition.y);
+  const twoPointRadian = calcTwoPointRadian(player.x, player.y, player.targetPosition.x, player.targetPosition.y);
+  setPlayerAngle(twoPointRadian);
+  console.log("playerHandleClick: player", player)
 }

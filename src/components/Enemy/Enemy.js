@@ -1,8 +1,6 @@
 import * as ENV from "../../env.js";
 import {handleEdgeOfScreen, distBetweenPoints} from "../../utils";
-import { enemyDraw } from "./EnemyDraw.js";
-import {explodedEnemies} from "./ExplodedEnemies";
-
+import { EnemyDraw } from "./functions/enemyDraw.js";
 /**
  * 敵キャラクターを生成するクラスです
  */
@@ -38,8 +36,6 @@ export class Enemy {
     let y;
     let size;
 
-    console.log(player);
-
     if(player === false) {
       x = enemyParam.posX;
       y = enemyParam.posY;
@@ -60,7 +56,7 @@ export class Enemy {
   }
 
   draw() {
-    enemyDraw(this.param);
+    EnemyDraw(this.param);
   }
 
   // drawDestroy() {

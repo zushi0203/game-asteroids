@@ -2,6 +2,7 @@ import * as ENV from "./env.js"
 import {SceneManager} from "./SceneManager.js";
 import {scenes} from "./scenes/scenes.js";
 import {
+  playerHandleClick,
   playerHandleKeyDown,
   playerHandleKeyup
 } from "./components/Player/Player.js";
@@ -27,7 +28,7 @@ export class GameManager {
       level: 1,
       enemies: [],
     }
-    this.scene.use("initPlay");
+    this.scene.use("initGame");
   }
 
   setupScene() {
@@ -40,9 +41,6 @@ export class GameManager {
   }
 
   setupEventHandle() {
-    ENV.canvas.oncontextmenu = (ev) => {
-      ev.preventDefault();
-    }
     document.addEventListener("keydown", (ev) => {
       console.log("keydown");
       if(ev.code == "KeyR") {
@@ -52,6 +50,14 @@ export class GameManager {
     });
     document.addEventListener("keyup", (ev) => {
       playerHandleKeyup(ev);
+    });
+    ENV.canvas.addEventListener("click", (ev) => {
+      ev.preventDefault();
+      playerHandleClick(ev);
+    });
+    ENV.canvas.oncontextmenu = ("oncontextmenu", (ev) => {
+      ev.preventDefault();
+      playerHandleClick(ev);
     });
   }
 

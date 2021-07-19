@@ -1,5 +1,5 @@
-import * as ENV from "../../env.js";
-import {Enemy} from "./Enemy";
+import * as ENV from "../../../env.js";
+import {Enemy} from "../../../components/Enemy/Enemy";
 
 /**
  * 敵を分裂させます
@@ -7,37 +7,35 @@ import {Enemy} from "./Enemy";
  * @returns {*[]}
  */
 const devideEnemy = (level, enemy) => {
-  const isBigEnemy = enemy.r == Math.ceil(ENV.ENEMIES_SIZE / 2);
-  const iSmallEnemy = enemy.r == Math.ceil(ENV.ENEMIES_SIZE / 4);
+  const isBigEnemy = enemy.param.r == Math.ceil(ENV.ENEMIES_SIZE / 2);
+  const iSmallEnemy = enemy.param.r == Math.ceil(ENV.ENEMIES_SIZE / 4);
   let enemies = [];
 
-  console.log("isBigEnemy");
-  enemies.push(new Enemy(level, "false", {
-    posX: enemy.x,
-    posY: enemy.y,
-    size: Math.ceil(ENV.ENEMIES_SIZE / 4),
-  }));
+  console.log(enemy);
+
   if(isBigEnemy) {
-    enemies.push(new Enemy(level, "false", {
-      posX: enemy.x,
-      posY: enemy.y,
+    console.log("isBigEnemy")
+    enemies.push(new Enemy(level, false, {
+      posX: enemy.param.x,
+      posY: enemy.param.y,
       size: Math.ceil(ENV.ENEMIES_SIZE / 4),
     }));
     enemies.push(new Enemy(level, false, {
-      posX: enemy.x,
-      posY: enemy.y,
+      posX: enemy.param.x,
+      posY: enemy.param.y,
       size: Math.ceil(ENV.ENEMIES_SIZE / 4),
     }));
   }
   else if(iSmallEnemy) {
+    console.log("small")
     enemies.push(new Enemy(level, false, {
-      posX: enemy.x,
-      posY: enemy.y,
+      posX: enemy.param.x,
+      posY: enemy.param.y,
       size: Math.ceil(ENV.ENEMIES_SIZE / 8),
     }));
     enemies.push(new Enemy(level, false, {
-      posX: enemy.x,
-      posY: enemy.y,
+      posX: enemy.param.x,
+      posY: enemy.param.y,
       size: Math.ceil(ENV.ENEMIES_SIZE / 8),
     }));
   }
@@ -51,7 +49,7 @@ const devideEnemy = (level, enemy) => {
  * @param {*} index 
  * @param {*} isExplode 
  */
-export const explodedEnemies = (level, enemies, index) => {
+export const devidedNewEnemies = (level, enemies, index) => {
   // 対象のEnemyを分裂させる
   const devidedEnemy = devideEnemy(level, enemies[index]);
   // 現在のEnemies配列から、対象のEnemyを削除
