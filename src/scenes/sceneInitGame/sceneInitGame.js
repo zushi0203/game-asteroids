@@ -10,7 +10,7 @@ export const sceneInitGame = (gameState) => {
 	initPlayer();
 	const player = getPlayer();
 
-	[...Array(gameState.level)].map((_) => {
+	[...Array(gameState.level * 3)].map((_) => {
 		const enemy = new Enemy(gameState.level, player);
 		gameState.enemies.push(enemy);
 	})

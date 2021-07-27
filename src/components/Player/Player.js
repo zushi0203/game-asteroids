@@ -40,15 +40,35 @@ const setPlayerPosition = () => {
   player.x += player.thrust.x;
   player.y += player.thrust.y;
 }
-const setPlayerThrust = () => {
+
+const setPlayerThrust = (thrust) => {
+  player.thrust.x = thrust.x;
+  player.thrust.y = thrust.y;
+}
+
+const addPlayerThrust = (thrust) => {
+  player.thrust.x += thrust.x;
+  player.thrust.y += thrust.y;
+}
+
+const onPlayerThrusting = () => {
   // thrust the Player
+  let thrust = {
+    x: null,
+    y: null,
+  };
+
   if (player.thrusting && !player.dead) {
-    player.thrust.x += ENV.SHIP_THRUST * Math.cos(player.a) / ENV.FPS;
-    player.thrust.y -= ENV.SHIP_THRUST * Math.sin(player.a) / ENV.FPS;
+    thrust.x = player.thrust.x += ENV.SHIP_THRUST * Math.cos(player.a) / ENV.FPS;
+    thrust.y = player.thrust.y -= ENV.SHIP_THRUST * Math.sin(player.a) / ENV.FPS;
   } else { // not thrusting gensoku
-    player.thrust.x -= ENV.FRICTION * player.thrust.x / ENV.FPS;
-    player.thrust.y -= ENV.FRICTION * player.thrust.y / ENV.FPS;
+    // thrust.x = player.thrust.x -= ENV.FRICTION * player.thrust.x / ENV.FPS;
+    // thrust.y = player.thrust.y -= ENV.FRICTION * player.thrust.y / ENV.FPS;
+    thrust.x = player.thrust.x -= ENV.FRICTION * player.thrust.x / ENV.FPS;
+    thrust.y = player.thrust.y -= ENV.FRICTION * player.thrust.y / ENV.FPS;
   }
+
+  setPlayerThrust(thrust);
 }
 const setBlink = () => {
   if(!isPlayerBlink()) return;
@@ -170,7 +190,7 @@ export const updatePlayer = () => {
 
   // set position
   if(!isPlayerExploding()) {
-    setPlayerThrust();
+    onPlayerThrusting();
     setPlayerPosition();
   }
   
@@ -268,15 +288,30 @@ export const playerHandleKeyup = (/** @type {KeyboardEvent} */ ev) => {
 export const playerHandleClick = (/** @type {KeyboardEvent} */ ev) => {
   if (isPlayerDead()) return;
   console.log("playerHandle: click");
+
+  // クリックした座標をplayer.targetPositionに設定
   const clickPosition = {
     x: ev.layerX,
     y: ev.layerY
   }
   setPlayerTargetPosition(clickPosition);
 
-
-  const distance = calcTwoPointDistance(player.x, player.targetPosition.x, player.y, player.targetPosition.y);
+  //　クリックした方向にangleを向ける
   const twoPointRadian = calcTwoPointRadian(player.x, player.y, player.targetPosition.x, player.targetPosition.y);
   setPlayerAngle(twoPointRadian);
   console.log("playerHandleClick: player", player)
+
+  // 現在とクリックした座標の距離をもとに、player.thrustを設定
+  // const twoPointDistance = calcTwoPointDistance(player.x, player.targetPosition.x, player.y, player.targetPosition.y);
+  // console.log("twoPointDistance: ", twoPointDistance)
+  // const t = twoPointDistance / 2;
+  const [dx, dy] = [player.targetPosition.x - player.x, player.targetPosition.y - player.y];
+  const vx = dx / ENV.FPS;
+  const vy = dy / ENV.FPS;
+  const thrust = {
+    x: vx,
+    y: vy,
+  }
+  addPlayerThrust(thrust);
+
 }

@@ -7,8 +7,8 @@ import {sceneDebugPlayer} from "./sceneDebugPlayer/sceneDebugPlayer";
 export const scenes = {
 	"initGame": (game, scene) => {
 		sceneInitGame(game);
-		scene.use("debugPlayer");
-		// scene.use("game");
+		// scene.use("debugPlayer");
+		scene.use("game");
 	},
 	"game": (game, scene) => {
 		if(isPlayerDead()) {

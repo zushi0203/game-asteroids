@@ -1,6 +1,7 @@
 //
 export const FPS = 30; // frames per second
-export const FRICTION = 0.7; // friction coefficient of space (0 = no friction, 1 = lots of friction)
+// export const FRICTION = 0.7; // friction coefficient of space (0 = no friction, 1 = lots of friction)
+export const FRICTION = 0.2; // friction coefficient of space (0 = no friction, 1 = lots of friction)
 
 //
 export const GAME_LIVES = 3; // staring number of lives
