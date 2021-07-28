@@ -23,18 +23,31 @@ export const sceneGame = (gameState) => {
     enemy.update();
   })
 
-  if(isPlayerBlink() || isPlayerExploding()) return;
+  if(isPlayerExploding()) return;
 
   const player = getPlayer();
 
   gameState.enemies.forEach((enemy, enemyIndex) => {
-    const isCollision = checkCollision(player.x, player.y, enemy.param.x, enemy.param.y) < player.r + enemy.param.r;
+    const isPlayerCollision = checkCollision(player.x, player.y, enemy.param.x, enemy.param.y) < player.r + enemy.param.r;
 
-    if(isCollision) {
+    if(isPlayerCollision && !isPlayerBlink()) {
       playerExplode(player);
       console.log("before: ", gameState.enemies)
       gameState.enemies = devidedNewEnemies(gameState.level, gameState.enemies, enemyIndex);
       console.log("after: ", gameState.enemies)
     }
+
+    player.lasers.forEach((laser) => {
+      const isLaserCollision = checkCollision(laser.param.x, laser.param.y, enemy.param.x, enemy.param.y) < laser.param.r + enemy.param.r;
+     
+      if(!isLaserCollision) return;
+      console.log(isLaserCollision);
+
+      console.log("before: ", gameState.enemies)
+      laser.explode();
+      gameState.enemies = devidedNewEnemies(gameState.level, gameState.enemies, enemyIndex);
+      console.log("after: ", gameState.enemies)
+      
+    });
   });
 }

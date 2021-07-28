@@ -19,6 +19,10 @@ export class Laser {
 		}
 	}
 
+	explode() {
+		this.dead = true;
+	}
+
 	// characterLaserLoop = (character) => {
 	// 	// loop over the lasers
 	// 	character.lasers.forEach((Laser, laserIndex) => {
@@ -61,7 +65,6 @@ export class Laser {
 	}
 
 	updateLasersPosition() {
-		console.log("Laser!");
 		// move the lasers
 		// 先頭のレーザーが最大距離に到達したら削除
 		const isLaserOverDistance = this.param.dist > ENV.LASER_DIST * ENV.canvas.width;

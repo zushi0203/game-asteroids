@@ -26,6 +26,7 @@ export const SHIP_INV_DUR = 3; // duration of the Player' invisibility second
 export const SHIP_SIZE = 30; // Player height in pixels
 export const SHIP_TURN_SPD = 360; // turn speed in degree second
 export const SHIP_THRUST = 5; // acceletation of the Player in pixels per second per second
+export const SHIP_SHOOT_DUR = 0.6;
 
 //
 export const SHOW_BOUNDING = false; // show or hide collision bounding
