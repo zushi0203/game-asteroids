@@ -5,13 +5,13 @@ import {
   isPlayerExploding,
   updatePlayer
 } from "../../components/Player/Player.js";
-import { collisionEvent } from "./functions/collisionEvent.js";
+import { collision } from "./functions/collision";
 
 /**
  *
- * @param gameState
+ * @param game
  */
-export const sceneGame = (gameState) => {
+export const sceneGame = (game) => {
   background();
 
   // playerの更新
@@ -19,13 +19,13 @@ export const sceneGame = (gameState) => {
   const player = getPlayer();
 
   // enemiesの更新
-  gameState.enemies.forEach((enemy) => {
+  game.gameState.enemies.forEach((enemy) => {
     enemy.update(player);
   })
 
   // 衝突処理・スコアの更新
   if(isPlayerExploding()) return;
-  collisionEvent(player, gameState.enemies, gameState.level);
+  collision(player, game);
 
   // ゲームのステータス更新
 }

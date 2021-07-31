@@ -26,15 +26,16 @@ const updatedEnemies = (level, enemies, collisionIndex) => {
  * @param {*} enemies 
  * @returns 
  */
-export const collisionEvent = (player, enemies, level) => {
+export const collision = (player, game) => {
   let newEnemies;
 
-  enemies.forEach((enemy, enemyIndex) => {
+  game.gameState.enemies.forEach((enemy, enemyIndex) => {
     //
     const isPlayerCollision = checkCollision(player.x, player.y, enemy.param.x, enemy.param.y) < player.r + enemy.param.r;
     if(isPlayerCollision && !isPlayerBlink()) {
       playerExplode(player);
-      return updatedEnemies(level, enemies, enemyIndex);
+      newEnemies = updatedEnemies(game.gameState.level, game.gameState.enemies, enemyIndex);
+      game.updateEnemies(newEnemies);
     }
   
     //
@@ -43,7 +44,8 @@ export const collisionEvent = (player, enemies, level) => {
      
       if(!isLaserCollision) return;
       laser.explode();
-      return updatedEnemies(level, enemies, enemyIndex);
+      newEnemies = updatedEnemies(game.gameState.level, game.gameState.enemies, enemyIndex);
+      game.updateEnemies(newEnemies);
     });
   });
 } 

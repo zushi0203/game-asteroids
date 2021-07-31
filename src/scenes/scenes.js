@@ -6,7 +6,7 @@ import {sceneDebugPlayer} from "./sceneDebugPlayer/sceneDebugPlayer";
 
 export const scenes = {
 	"initGame": (game, scene) => {
-		sceneInitGame(game);
+		sceneInitGame(game.gameState);
 		// scene.use("debugPlayer");
 		scene.use("game");
 	},
@@ -14,9 +14,9 @@ export const scenes = {
 		sceneGame(game)
 	},
 	"gameover": (game, scene) => {
-		sceneGameover(game)
+		sceneGameover(game.gameState)
 	},
 	"debugPlayer": (game, scene) => {
-		sceneDebugPlayer(game)
+		sceneDebugPlayer(game.gameState)
 	},
 }

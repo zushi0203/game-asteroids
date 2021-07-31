@@ -21,6 +21,7 @@ export class GameManager {
   constructor() {
     this.gameState = {...initGameState};
     this.scene = new SceneManager();
+    this.game = this;
 
     this.setupEventHandle();
     this.setupScene();
@@ -32,11 +33,16 @@ export class GameManager {
     this.scene.use("initGame");
   }
 
+
+  updateEnemies(newEnemies) {
+    this.gameState.enemies = newEnemies;
+  }
+
   setupScene() {
     this.scene.init();
     Object.keys(scenes).forEach((key) => {
       this.scene.add(key, () => {
-        scenes[key](this.gameState, this.scene);
+        scenes[key](this.game, this.scene);
       });
     })
   }
