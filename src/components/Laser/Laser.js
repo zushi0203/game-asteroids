@@ -23,23 +23,6 @@ export class Laser {
 		this.dead = true;
 	}
 
-	// characterLaserLoop = (character) => {
-	// 	// loop over the lasers
-	// 	character.lasers.forEach((Laser, laserIndex) => {
-	// 		// grab the Laser properties
-	// 		const lx = this.param.x;
-	// 		const ly = this.param.y;
-	//
-	// 		// detect hits
-	// 		if(this.param.explodeTime !== 0) return;
-	// 		if(distBetweenPoints(ax, ay, lx, ly) < ar) {
-	// 			// destroy the Enemy and activate the Laser explosion
-	// 			// destroyAsteenemy(enemyIndex);
-	// 			this.param.explodeTime = Math.ceil(ENV.LASER_EXPLODE_DUR * ENV.FPS);
-	// 		}
-	// 	})
-	// };
-
 	drawLaser(character) {
 		const isExploding = this.param.explodeTime > 0
 		if(!isExploding) {

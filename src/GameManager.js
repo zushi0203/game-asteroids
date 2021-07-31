@@ -7,15 +7,19 @@ import {
   playerHandleKeyup
 } from "./components/Player/Player.js";
 
+
+const initGameState = {
+  level: 1,
+  enemies: [],
+  lives: ENV.GAME_LIVES,
+}
+
 /**
  *
  */
 export class GameManager {
   constructor() {
-    this.state = {
-      level: 1,
-      enemies: [],
-    }
+    this.gameState = {...initGameState};
     this.scene = new SceneManager();
 
     this.setupEventHandle();
@@ -24,10 +28,7 @@ export class GameManager {
   }
 
   init() {
-    this.state = {
-      level: 1,
-      enemies: [],
-    }
+    this.gameState = {...initGameState};
     this.scene.use("initGame");
   }
 
@@ -35,7 +36,7 @@ export class GameManager {
     this.scene.init();
     Object.keys(scenes).forEach((key) => {
       this.scene.add(key, () => {
-        scenes[key](this.state, this.scene);
+        scenes[key](this.gameState, this.scene);
       });
     })
   }

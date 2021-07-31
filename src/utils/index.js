@@ -50,7 +50,6 @@ export const handleEdgeOfScreen = (item) => {
  * @returns {number}
  */
 export const calcTwoPointDistance = (x, y, x2, y2) => {
-  console.log("calcTwoPointDistance", x, y, x2, y2)
   return Math.sqrt((x - x2) ** 2 + (y - y2) ** 2);
 }
 

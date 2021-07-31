@@ -8,7 +8,31 @@ import {drawPlayer, drawExplosionPlayer} from "./functions/playerDraw.js";
 import {playerExplode, setExplodeTime} from "./functions/playerExplode.js";
 import {Laser} from "../Laser/Laser.js";
 
-let player = {};
+const initPlayerParam = {
+  x: ENV.canvas.width / 2, // center
+  y: ENV.canvas.height / 2, // center
+  r: ENV.SHIP_SIZE / 2,
+  a: 90 / 180 * Math.PI, // convert to radians
+  targetPosition: {
+    x: null,
+    y: null,
+  },
+  blinkNum: Math.ceil(ENV.SHIP_INV_DUR / ENV.SHIP_BLINK_DUR),
+  blinkTime: Math.ceil(ENV.SHIP_BLINK_DUR * ENV.FPS),
+  canShoot: true,
+  shootTime: 0,
+  explodeTime: 0,
+  dead: false,
+  lasers: [],
+  rotate: 0,
+  thrusting: false,
+  thrust: {
+    x: 0,
+    y: 0,
+  }
+}
+
+let player = {...initPlayerParam};
 export const getPlayer = () => player; // 現在のplayerを取得します
 
 // ================================================
@@ -125,39 +149,8 @@ export const setPlayerDead = () => {
 //
 // ================================================
 
-export const newPlayer = () => {
-  return {
-    x: ENV.canvas.width / 2, // center
-    y: ENV.canvas.height / 2, // center
-    r: ENV.SHIP_SIZE / 2,
-    a: 90 / 180 * Math.PI, // convert to radians
-    targetPosition: {
-      x: null,
-      y: null,
-    },
-    blinkNum: Math.ceil(ENV.SHIP_INV_DUR / ENV.SHIP_BLINK_DUR),
-    blinkTime: Math.ceil(ENV.SHIP_BLINK_DUR * ENV.FPS),
-    canShoot: true,
-    explodeTime: 0,
-    dead: false,
-    lives: ENV.GAME_LIVES,
-    lasers: [],
-    rotate: 0,
-    thrusting: false,
-    thrust: {
-      x: 0,
-      y: 0,
-    }
-  }
-}
 export const initPlayer = () => {
-  player = newPlayer();
-}
-
-export const continuePlayer = (lives) => {
-  let continuePlayer = newPlayer();
-  continuePlayer.lives = lives;
-  player = continuePlayer;
+  player = {...initPlayerParam};
 }
 
 export const shootLaser = () => {
@@ -219,8 +212,6 @@ export const updatePlayer = () => {
       laser.update(player)
     }
   });
-
-  // checkEnemiesCollision(enemies);
 }
 
 
