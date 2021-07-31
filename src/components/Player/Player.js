@@ -1,11 +1,9 @@
 import * as ENV from "../../env.js";
 import {
   handleEdgeOfScreen,
-  calcTwoPointDistance,
   calcTwoPointRadian
 } from "../../utils";
 import {drawPlayer, drawExplosionPlayer} from "./functions/playerDraw.js";
-import {playerExplode, setExplodeTime} from "./functions/playerExplode.js";
 import {Laser} from "../Laser/Laser.js";
 
 const initPlayerParam = {
@@ -141,7 +139,18 @@ export const setPlayerDead = () => {
   player.dead = true 
 };
 
+const onExplode = (player) => {
+  player.explodeTime--;
+  
+  const isExploding = player.explodeTime > 0
+  if(isExploding) return;
+  initPlayer();
+}
 
+export const playerExplode = (player) => {
+  if(!player) return;
+  player.explodeTime = Math.ceil(ENV.SHIP_EXPLODE_DUR * ENV.FPS);
+}
 
 // ================================================
 //
@@ -164,6 +173,19 @@ export const shootLaser = () => {
   console.log("shoot", player.lasers);
 }
 
+export const autoShootLaser = () => {
+  if(0 < player.shootTime) {
+    player.shootTime--;
+    return;
+  }
+
+  if(player.lasers.length < ENV.LASER_MAX) {
+    const laser = new Laser(player);
+    player.lasers.push(laser);
+    player.shootTime = Math.ceil(ENV.SHIP_SHOOT_DUR * ENV.FPS);
+  }
+}
+
 
 
 // ================================================
@@ -173,11 +195,6 @@ export const shootLaser = () => {
 // ================================================
 
 export const updatePlayer = () => {
-  const isContinue = player.lives > 0;
-
-  if(!isContinue) setPlayerDead();
-  if(player.dead) return;
-
   // const isPlayerExploding = Player.explodeTime > 0;
   const isPlayerBlinkOn = player.blinkNum % 2 === 0;
 
@@ -190,7 +207,7 @@ export const updatePlayer = () => {
   // draw Player
   if(isPlayerExploding()) {
     drawExplosionPlayer(player);
-    setExplodeTime(player);
+    onExplode(player);
   } 
   else if(!isPlayerBlinkOn) {
     setBlink();
@@ -200,6 +217,8 @@ export const updatePlayer = () => {
     setBlink();
   }
 
+  if(!isPlayerBlink()) autoShootLaser();
+ 
 
   //
   handleEdgeOfScreen(player);
@@ -232,7 +251,7 @@ export const playerHandleKeyDown = (/** @type {KeyboardEvent} */ ev) => {
   if(isPlayerDead()) return;
 
   switch(ev.code) {
-    case "KeyX": 
+    case "KeyX": // debug explode
       playerExplode(player);
       break;
     case "Space": // space bar (allow shooting again)
@@ -304,5 +323,4 @@ export const playerHandleClick = (/** @type {KeyboardEvent} */ ev) => {
     y: vy,
   }
   addPlayerThrust(thrust);
-
 }

@@ -11,9 +11,6 @@ export const scenes = {
 		scene.use("game");
 	},
 	"game": (game, scene) => {
-		if(isPlayerDead()) {
-			scene.use("gameover");
-		}
 		sceneGame(game)
 	},
 	"gameover": (game, scene) => {
