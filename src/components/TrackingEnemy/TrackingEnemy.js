@@ -2,7 +2,7 @@ import * as ENV from "../../env.js";
 import {handleEdgeOfScreen, distBetweenPoints, calcTwoPointDistance} from "../../utils";
 import { EnemyDraw } from "./functions/TrackingEnemyDraw.js";
 /**
- * 敵キャラクターを生成するクラスです
+ * 一定の速度でプレイヤーを追尾する敵を生成するクラスです
  */
 export class TrackingEnemy {
   constructor(level, player, trackingEnemyParam) {
