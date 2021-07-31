@@ -19,20 +19,33 @@ const initGameState = {
  */
 export class GameManager {
   constructor() {
-    this.gameState = {...initGameState};
+    this.gameState;
     this.scene = new SceneManager();
     this.game = this;
-
     this.setupEventHandle();
     this.setupScene();
     this.init();
   }
 
   init() {
-    this.gameState = {...initGameState};
+    this.initState();
     this.scene.use("initGame");
   }
+  
+  initState() {
+    this.gameState = {
+      ...initGameState, 
+      enemies: [...initGameState.enemies],
+    };
+  }
 
+  reduceLives() {
+    this.gameState.lives--;
+  }
+
+  isGameover() {
+    return this.gameState.lives <= 0;
+  }
 
   updateEnemies(newEnemies) {
     this.gameState.enemies = newEnemies;

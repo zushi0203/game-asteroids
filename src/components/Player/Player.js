@@ -30,7 +30,7 @@ const initPlayerParam = {
   }
 }
 
-let player = {...initPlayerParam};
+let player = {};
 export const getPlayer = () => player; // 現在のplayerを取得します
 
 // ================================================
@@ -159,7 +159,12 @@ export const playerExplode = (player) => {
 // ================================================
 
 export const initPlayer = () => {
-  player = {...initPlayerParam};
+  player = {
+    ...initPlayerParam, 
+    targetPosition: {...initPlayerParam.targetPosition},
+    lasers: [...initPlayerParam.lasers],
+    thrust: {...initPlayerParam.thrust},
+  };
 }
 
 export const shootLaser = () => {

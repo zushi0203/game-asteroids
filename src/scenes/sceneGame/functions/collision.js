@@ -30,20 +30,28 @@ export const collision = (player, game) => {
   let newEnemies;
 
   game.gameState.enemies.forEach((enemy, enemyIndex) => {
-    //
     const isPlayerCollision = checkCollision(player.x, player.y, enemy.param.x, enemy.param.y) < player.r + enemy.param.r;
     if(isPlayerCollision && !isPlayerBlink()) {
+      // player
       playerExplode(player);
+      game.reduceLives();
+
+      // enemies
       newEnemies = updatedEnemies(game.gameState.level, game.gameState.enemies, enemyIndex);
       game.updateEnemies(newEnemies);
     }
+
+    if(game.isGameover()) return;
   
     //
     player.lasers.forEach((laser) => {
       const isLaserCollision = checkCollision(laser.param.x, laser.param.y, enemy.param.x, enemy.param.y) < laser.param.r + enemy.param.r;
      
       if(!isLaserCollision) return;
+      // laser
       laser.explode();
+
+      // enemies
       newEnemies = updatedEnemies(game.gameState.level, game.gameState.enemies, enemyIndex);
       game.updateEnemies(newEnemies);
     });

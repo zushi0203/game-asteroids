@@ -7,17 +7,18 @@ import {TrackingEnemy} from "../../components/TrackingEnemy/TrackingEnemy.js";
  *
  * @param gameState
  */
-export const sceneInitGame = (gameState) => {
+export const sceneInitGame = (game) => {
 	initPlayer();
+	game.initState();
 	const player = getPlayer();
 
-	[...Array(gameState.level * 3)].map((_) => {
-		const enemy = new Enemy(gameState.level, player);
-		gameState.enemies.push(enemy);
+	[...Array(game.gameState.level * 3)].map((_) => {
+		const enemy = new Enemy(game.gameState.level, player);
+		game.gameState.enemies.push(enemy);
 	})
 
-	const trackingEnemy = new TrackingEnemy(gameState.level, player);
-	gameState.enemies.push(trackingEnemy);
+	const trackingEnemy = new TrackingEnemy(game.gameState.level, player);
+	game.gameState.enemies.push(trackingEnemy);
 
 	background();
 }
