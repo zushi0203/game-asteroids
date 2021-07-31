@@ -1,6 +1,6 @@
 import * as ENV from "../../env.js";
 import {handleEdgeOfScreen, distBetweenPoints} from "../../utils";
-import { EnemyDraw } from "./functions/enemyDraw.js";
+import { enemyDraw } from "./functions/enemyDraw.js";
 /**
  * 敵キャラクターを生成するクラスです
  */
@@ -14,6 +14,7 @@ export class Enemy {
   createParam(x, y, r) {
     const lvlMult = 1 + 0.1 * this.level;
     const enemy = {
+      name: "enemy",
       x: x,
       y: y,
       xv: Math.random() * ENV.ENEMIES_SPD * lvlMult / ENV.FPS * (Math.random() < 0.5 ? 1 : -1),
@@ -56,7 +57,7 @@ export class Enemy {
   }
 
   draw() {
-    EnemyDraw(this.param);
+    enemyDraw(this.param);
   }
 
   // drawDestroy() {

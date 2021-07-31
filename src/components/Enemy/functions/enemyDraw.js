@@ -1,6 +1,6 @@
 import * as ENV from "../../../env.js";
 
-export const EnemyDraw = (enemy) => {
+export const enemyDraw = (enemy) => {
   // draw a path
   ENV.ctx.lineWidth = ENV.SHIP_SIZE / 20;
   ENV.ctx.strokeStyle = "red";

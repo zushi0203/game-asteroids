@@ -1,16 +1,11 @@
 import {background} from "../../components/Background/Background.js";
 import {
   getPlayer,
-  initPlayer,
-  isPlayerActive,
   isPlayerBlink,
   isPlayerExploding,
   updatePlayer
 } from "../../components/Player/Player.js";
-import {Enemy} from "../../components/Enemy/Enemy.js";
-import {playerExplode} from "../../components/Player/functions/playerExplode";
-import {checkCollision} from "../../utils";
-import {devidedNewEnemies} from "./functions/devidedNewEnemies";
+import { collisionEvent } from "./functions/collisionEvent.js";
 
 /**
  *
@@ -18,36 +13,19 @@ import {devidedNewEnemies} from "./functions/devidedNewEnemies";
  */
 export const sceneGame = (gameState) => {
   background();
+
+  // playerの更新
   updatePlayer();
-  gameState.enemies.forEach((enemy) => {
-    enemy.update();
-  })
-
-  if(isPlayerExploding()) return;
-
   const player = getPlayer();
 
-  gameState.enemies.forEach((enemy, enemyIndex) => {
-    const isPlayerCollision = checkCollision(player.x, player.y, enemy.param.x, enemy.param.y) < player.r + enemy.param.r;
+  // enemiesの更新
+  gameState.enemies.forEach((enemy) => {
+    enemy.update(player);
+  })
 
-    if(isPlayerCollision && !isPlayerBlink()) {
-      playerExplode(player);
-      console.log("before: ", gameState.enemies)
-      gameState.enemies = devidedNewEnemies(gameState.level, gameState.enemies, enemyIndex);
-      console.log("after: ", gameState.enemies)
-    }
+  // 衝突処理・スコアの更新
+  if(isPlayerExploding()) return;
+  collisionEvent(player, gameState.enemies, gameState.level);
 
-    player.lasers.forEach((laser) => {
-      const isLaserCollision = checkCollision(laser.param.x, laser.param.y, enemy.param.x, enemy.param.y) < laser.param.r + enemy.param.r;
-     
-      if(!isLaserCollision) return;
-      console.log(isLaserCollision);
-
-      console.log("before: ", gameState.enemies)
-      laser.explode();
-      gameState.enemies = devidedNewEnemies(gameState.level, gameState.enemies, enemyIndex);
-      console.log("after: ", gameState.enemies)
-      
-    });
-  });
+  // ゲームのステータス更新
 }
