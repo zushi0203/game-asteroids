@@ -43,8 +43,16 @@ export class GameManager {
     this.gameState.lives--;
   }
 
+  levelUp() {
+    this.gameState.level++;
+  }
+
   isGameover() {
     return this.gameState.lives <= 0;
+  }
+  
+  isStageClear() {
+    return !this.isGameover() && !this.gameState.enemies.length;
   }
 
   updateEnemies(newEnemies) {

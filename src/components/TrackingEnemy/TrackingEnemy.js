@@ -66,6 +66,8 @@ export class TrackingEnemy {
   // }
 
   updatePosition(player) {
+    if(player === "undefined") return;
+
     const twoPointDistance = calcTwoPointDistance(player.x, player.y, this.param.x, this.param.y);
     const [dx, dy] = [player.x - this.param.x, player.y - this.param.y];
     const t = twoPointDistance / (ENV.ENEMIES_SPD * 2 / ENV.FPS);

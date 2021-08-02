@@ -9,14 +9,14 @@ import {TrackingEnemy} from "../../components/TrackingEnemy/TrackingEnemy.js";
  */
 export const sceneInitGame = (game) => {
 	initPlayer();
-	game.initState();
 	const player = getPlayer();
 
-	[...Array(game.gameState.level * 3)].map((_) => {
+	[...Array(game.gameState.level)].map((_) => {
 		const enemy = new Enemy(game.gameState.level, player);
 		game.gameState.enemies.push(enemy);
 	})
 
+	// gameState.enemiesにpushせず、お邪魔キャラとして扱うのがよさそう
 	const trackingEnemy = new TrackingEnemy(game.gameState.level, player);
 	game.gameState.enemies.push(trackingEnemy);
 

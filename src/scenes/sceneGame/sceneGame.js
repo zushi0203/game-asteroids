@@ -11,7 +11,7 @@ import { collision } from "./functions/collision";
  *
  * @param game
  */
-export const sceneGame = (game) => {
+export const sceneGame = (game, state) => {
   background();
 
   // playerの更新
@@ -23,9 +23,19 @@ export const sceneGame = (game) => {
     enemy.update(player);
   })
 
+  // ゲームオーバーの判定（プレイヤーが爆発中の確認も行う）
+  if(game.isGameover() && !isPlayerExploding()) {
+    state.use("gameover");
+    return;
+  }
+
   // 衝突処理・スコアの更新
-  if(isPlayerExploding()) return;
+  // if(isPlayerExploding()) return;
   collision(player, game);
 
-  // ゲームのステータス更新
+  // ステージクリアの判定
+  if(game.isStageClear()) {
+    state.use("gameStageUp");
+  }
+
 }

@@ -13,7 +13,7 @@ export class Enemy {
   }
 
   createParam(x, y, r) {
-    const lvlMult = 1 + 0.1 * this.level;
+    const lvlMult = 1 + 0.5 * this.level;
     const enemy = {
       x: x,
       y: y,

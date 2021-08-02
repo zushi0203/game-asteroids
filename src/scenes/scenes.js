@@ -1,24 +1,24 @@
-import {sceneGame} from "./sceneGame/sceneGame.js";
-import {sceneInitGame} from "./sceneInitGame/sceneInitGame.js";
 import {isPlayerDead} from "../components/Player/Player";
+import {sceneInitGame} from "./sceneInitGame/sceneInitGame";
+import {sceneGame} from "./sceneGame/sceneGame";
+import {sceneGameStageUp} from "./sceneGameStageUp/sceneGameStageUp";
 import {sceneGameover} from "./sceneGameover/sceneGameover";
 import {sceneDebugPlayer} from "./sceneDebugPlayer/sceneDebugPlayer";
 
 export const scenes = {
 	"initGame": (game, scene) => {
 		sceneInitGame(game);
-		// scene.use("debugPlayer");
 		scene.use("game");
 	},
 	"game": (game, scene) => {
-		if(game.isGameover()) {
-			scene.use("gameover")
-		} else {
-			sceneGame(game)
-		}
+		sceneGame(game, scene); // シーン状況によって次のシーンを変更
+	},
+	"gameStageUp": (game, scene) => {
+		sceneGameStageUp(game);
+		scene.use("game");
 	},
 	"gameover": (game, scene) => {
-		sceneGameover(game.gameState)
+		sceneGameover(game, scene)
 	},
 	"debugPlayer": (game, scene) => {
 		sceneDebugPlayer(game.gameState)
