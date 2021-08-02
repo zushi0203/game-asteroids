@@ -76,6 +76,13 @@ export class GameManager {
       }
       playerHandleKeyDown(ev);
     });
+    document.addEventListener("keydown", (ev) => {
+      console.log("keydown");
+      if(ev.code == "KeyN") {
+        this.gameState.enemies = [];
+      }
+      playerHandleKeyDown(ev);
+    });
     document.addEventListener("keyup", (ev) => {
       playerHandleKeyup(ev);
     });
