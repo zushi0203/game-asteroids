@@ -6,6 +6,7 @@ import { enemyDraw } from "./functions/enemyDraw.js";
  */
 export class Enemy {
   constructor(level, player, enemyParam) {
+    this.enemyType = "enemy";
     this.param;
     this.level = level;
     this.initialize(player, enemyParam);
@@ -14,7 +15,6 @@ export class Enemy {
   createParam(x, y, r) {
     const lvlMult = 1 + 0.1 * this.level;
     const enemy = {
-      name: "enemy",
       x: x,
       y: y,
       xv: Math.random() * ENV.ENEMIES_SPD * lvlMult / ENV.FPS * (Math.random() < 0.5 ? 1 : -1),

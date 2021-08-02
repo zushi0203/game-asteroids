@@ -6,6 +6,7 @@ import { EnemyDraw } from "./functions/TrackingEnemyDraw.js";
  */
 export class TrackingEnemy {
   constructor(level, player, trackingEnemyParam) {
+    this.enemyType = "trackingEnemy"
     this.param;
     this.level = level;
     this.initialize(player, trackingEnemyParam);

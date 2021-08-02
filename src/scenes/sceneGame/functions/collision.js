@@ -1,5 +1,5 @@
 import {checkCollision} from "../../../utils";
-import {isPlayerBlink, playerExplode} from "../../../components/Player/Player";
+import {isPlayerBlink, playerExplode, isPlayerExploding} from "../../../components/Player/Player";
 import { devidedNewEnemies } from "./devidedNewEnemies";
 
 /**
@@ -10,7 +10,7 @@ import { devidedNewEnemies } from "./devidedNewEnemies";
  * @returns 
  */
 const updatedEnemies = (level, enemies, collisionIndex) => {
-  if(enemies[collisionIndex].param.name === "enemy") {
+  if(enemies[collisionIndex].enemyType === "enemy") {
     return devidedNewEnemies(level, enemies, collisionIndex);
   } else {
     // 現在のenemies配列から、対象のEnemyを削除
@@ -31,7 +31,7 @@ export const collision = (player, game) => {
 
   game.gameState.enemies.forEach((enemy, enemyIndex) => {
     const isPlayerCollision = checkCollision(player.x, player.y, enemy.param.x, enemy.param.y) < player.r + enemy.param.r;
-    if(isPlayerCollision && !isPlayerBlink()) {
+    if(isPlayerCollision && !isPlayerBlink() && !isPlayerExploding()) {
       // player
       playerExplode(player);
       game.reduceLives();
