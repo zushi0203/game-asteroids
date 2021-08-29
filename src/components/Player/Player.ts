@@ -1,11 +1,9 @@
 import {GameConsts} from "../../common/consts/GameConsts";
 import {PlayerConsts} from "../../common/consts/PlayerConsts";
-// import {handleEdgeOfScreen} from "../../common/utils/handleEdgeOfScreen";
 import {playerDraw, playerExplosionDraw} from "./functions/playerDraw";
 import {PlayerLaser} from "./PlayerLaser";
 import {PlayerThruster} from "./PlayerThruster";
 import {PlayerAction} from "./PlayerAction";
-// import {_PlayerStatusType} from "./types/_PlayerStatusType";
 import {PlayerClickPositionType} from "./types/PlayerClickPositionType";
 import {PositionData} from "../../common/utils/classes/PositionData";
 
@@ -13,12 +11,11 @@ import {PositionData} from "../../common/utils/classes/PositionData";
  * プレイヤーを生成するクラス
  */
 export class Player {
-  // status: _PlayerStatusType;
+  position: PositionData;
   private rotate: number;
   private blinkNum: number;
   private blinkTime: number;
   private explodeTime: number;
-  position: PositionData;
   thruster: PlayerThruster;
   laser: PlayerLaser;
   action: PlayerAction;
@@ -29,29 +26,18 @@ export class Player {
   }
 
   constructor() {
-    // this.status = {
-    //   x: 0,
-    //   y: 0,
-    //   r: 0,
-    //   a: 0,
-    //   rotate: 0,
-    //   targetPosition: {
-    //     x: undefined,
-    //     y: undefined,
-    //   },
-    // };
+    this.position    = new PositionData();
     this.targetPosition = {
       x: undefined,
       y: undefined,
     };
-    this.rotate      = 0;
-    this.blinkNum    = 0;
-    this.blinkTime   = 0;
+    this.rotate = 0;
+    this.blinkNum = 0;
+    this.blinkTime = 0;
     this.explodeTime = 0;
-    this.position    = new PositionData();
-    this.thruster    = new PlayerThruster();
-    this.laser       = new PlayerLaser();
-    this.action      = new PlayerAction();
+    this.thruster = new PlayerThruster();
+    this.laser = new PlayerLaser();
+    this.action = new PlayerAction();
   }
 
   // 非表示状態の判定
@@ -89,17 +75,6 @@ export class Player {
    * コンストラクタ情報に初期値を設定します
    */
   init() {
-    // this.status = {
-    //   x: GameConsts.CANVAS.width / 2, // center
-    //   y: GameConsts.CANVAS.height / 2, // center
-    //   r: PlayerConsts.SIZE / 2,
-    //   a: 90 / 180 * Math.PI, // convert to radians
-    //   targetPosition: {
-    //     x: undefined,
-    //     y: undefined,
-    //   },
-    //   rotate: 0,
-    // };
     this.position.setData({
       x: GameConsts.CANVAS.width / 2, // center
       y: GameConsts.CANVAS.height / 2, // center
@@ -127,13 +102,6 @@ export class Player {
    * 座標情報を更新します
    */
   updatePosition() {
-    // // rotate param.Player
-    // this.status.a += this.status.rotate;
-    //
-    // // move the param.Player
-    // this.status.x += this.thruster.currentStatus.x;
-    // this.status.y += this.thruster.currentStatus.y;
-
     const position = this.position.getData;
     this.position.setData({
       x: position.x += this.thruster.currentStatus.x,
@@ -165,7 +133,6 @@ export class Player {
     this.position.setData({
       a: radian,
     })
-    // this.status.a = radian;
   }
 
   /**
@@ -224,5 +191,4 @@ export class Player {
     // レーザーの更新
     this.laser.updateLasers();
   }
-
 }

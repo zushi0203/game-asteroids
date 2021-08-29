@@ -1,8 +1,5 @@
 import {GameConsts} from "../../common/consts/GameConsts";
 import {LaserConsts} from "../../common/consts/LaserConsts";
-// import {handleEdgeOfScreen} from "../../common/utils/handleEdgeOfScreen";
-// import {_LaserStatusType} from "./types/_LaserStatusType";
-// import {_ComponentPositionType} from "../../common/types/_ComponentPositionType";
 import {laserDraw} from "./funtions/laserDraw";
 import {PositionData} from "../../common/utils/classes/PositionData";
 import {PositionDataType} from "../../common/types/PositionDataType";
@@ -11,24 +8,13 @@ import {PositionDataType} from "../../common/types/PositionDataType";
  * レーザーを生成するクラス
  */
 export class Laser {
-	// status: _LaserStatusType;
+	position: PositionData;
 	dist: number;
 	explodeTime: number;
 	dead: boolean;
-	position: PositionData;
 
 	constructor(initPosition: PositionDataType["default"]) {
 		this.position = new PositionData();
-		// this.status = {
-		// 	x: 0,
-		// 	y: 0,
-		// 	vx: 0,
-		// 	vy: 0,
-		// 	r: 0,
-		// 	a: 0,
-		// 	dist: 0,
-		// 	explodeTime: 0,
-		// };
 		this.dist = 0;
 		this.explodeTime = 0;
 		this.dead = false;
@@ -57,16 +43,6 @@ export class Laser {
 			r: 0,
 			a: 0,
 		})
-		// this.status = {
-		// 	x: initPosition.x + 4 / 3 * initPosition.r * Math.cos(initPosition.a),
-		// 	y: initPosition.y - 4 / 3 * initPosition.r * Math.sin(initPosition.a),
-		// 	vx: LaserConsts.SPEED * Math.cos(initPosition.a) / GameConsts.FPS,
-		// 	vy: -LaserConsts.SPEED * Math.sin(initPosition.a) / GameConsts.FPS,
-		// 	r: 0,
-		// 	a: 0,
-		// 	dist: 0,
-		// 	explodeTime: 0,
-		// };
 		this.dist = 0;
 		this.explodeTime = 0;
 		this.dead = false;

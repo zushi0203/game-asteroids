@@ -1,4 +1,4 @@
-import {checkCollision} from "../../../common/utils/checkCollision";
+import {checkCollision} from "../../../common/utils/functions/checkCollision";
 import { devidedNewEnemies } from "./devidedNewEnemies";
 import {GameManager} from "../../../core/GameManager";
 import {EnemiesType} from "../../../common/types/EnemiesType";

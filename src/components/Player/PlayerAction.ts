@@ -1,4 +1,4 @@
-import {calcTwoPointRadian} from "../../common/utils/calcTwoPointRadian";
+import {calcTwoPointRadian} from "../../common/utils/functions/calcTwoPointRadian";
 import {GameConsts} from "../../common/consts/GameConsts";
 import {Player} from "./Player";
 

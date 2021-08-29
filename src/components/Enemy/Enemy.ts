@@ -1,10 +1,7 @@
 import {GameConsts} from "../../common/consts/GameConsts";
 import {EnemyConsts} from "../../common/consts/EnemyConsts";
-// import {handleEdgeOfScreen} from "../../common/utils/handleEdgeOfScreen";
-import {calcDistBetweenPoints} from "../../common/utils/calcDistBetweenPoints";
-// import {_ComponentPositionType} from "../../common/types/_ComponentPositionType";
+import {calcDistBetweenPoints} from "../../common/utils/functions/calcDistBetweenPoints";
 import {enemyDraw} from "./functions/enemyDraw";
-// import {_EnemyStatusType} from "./types/_EnemyStatusType";
 import {EnemyInitPositionType} from "./types/EnemyInitPositionType";
 import {EnemyNameType} from "../../common/types/EnemyNameType";
 import {PositionData} from "../../common/utils/classes/PositionData";
@@ -15,11 +12,10 @@ import {PositionDataType} from "../../common/types/PositionDataType";
  */
 export class Enemy {
   enemyType: EnemyNameType;
-  // status: _EnemyStatusType;
-  level: number;
+  position: PositionData;
   vert: number;
   offs: number[];
-  position: PositionData;
+  level: number;
 
   constructor(
     level: number,
@@ -27,20 +23,10 @@ export class Enemy {
     initPosition: EnemyInitPositionType | false
   ){
     this.enemyType = "enemy";
-    // this.status = {
-    //   x: 0,
-    //   y: 0,
-    //   vx: 0,
-    //   vy: 0,
-    //   r: 0,
-    //   a: 0, // in radians
-    //   vert: 0,
-    //   offs: [], // 角の位置（配列の数で角の数を決める）
-    // };
+    this.position = new PositionData();
     this.vert = 0;
     this.offs = [];
     this.level = level;
-    this.position = new PositionData();
 
     this.init(avoidPosition, initPosition);
   }
@@ -97,54 +83,11 @@ export class Enemy {
   }
 
   /**
-   * 座標情報の初期値を設定します
-   * @param x
-   * @param y
-   * @param r
-   */
-  // private initStatus(x: number, y: number, r: number) {
-  //   const lvlMult: number = 1 + 0.5 * this.level;
-  //   // const enemy: _EnemyStatusType = {
-  //   //   x: x,
-  //   //   y: y,
-  //   //   vx: Math.random() * EnemyConsts.SPEED * lvlMult / GameConsts.FPS * (Math.random() < 0.5 ? 1 : -1),
-  //   //   vy: Math.random() * EnemyConsts.SPEED * lvlMult / GameConsts.FPS * (Math.random() < 0.5 ? 1 : -1),
-  //   //   r: r,
-  //   //   a: Math.random() * Math.PI * 2, // in radians
-  //   //   vert: Math.floor(Math.random() * (EnemyConsts.VERTIUCES + 1) + EnemyConsts.VERTIUCES / 2),
-  //   //   offs: [],
-  //   // };
-  //   // // create the vertex offsets array
-  //   // [...Array(enemy.vert)].map((_) => {
-  //   //   enemy.offs.push(Math.random() * EnemyConsts.JAGGEDNESS * 2 + 1 - EnemyConsts.JAGGEDNESS);
-  //   // });
-  //
-  //   this.position.setData({
-  //       x: x,
-  //       y: y,
-  //       vx: Math.random() * EnemyConsts.SPEED * lvlMult / GameConsts.FPS * (Math.random() < 0.5 ? 1 : -1),
-  //       vy: Math.random() * EnemyConsts.SPEED * lvlMult / GameConsts.FPS * (Math.random() < 0.5 ? 1 : -1),
-  //       r: r,
-  //       a: Math.random() * Math.PI * 2, // in radians
-  //   });
-  //
-  //   this.vert = Math.floor(Math.random() * (EnemyConsts.VERTIUCES + 1) + EnemyConsts.VERTIUCES / 2);
-  //
-  //   [...Array(this.vert)].map((_) => {
-  //     this.offs.push(Math.random() * EnemyConsts.JAGGEDNESS * 2 + 1 - EnemyConsts.JAGGEDNESS);
-  //   });
-  // }
-
-  /**
    * 敵キャラクターを描画します
    */
   private draw() {
     enemyDraw(this.position.getData, this.vert, this.offs);
   }
-
-  // drawDestroy() {
-  //   drawExplosionEnemy(this.status);
-  // }
 
   /**
    * 座標情報を更新します

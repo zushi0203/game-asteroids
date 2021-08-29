@@ -3,7 +3,6 @@ import {Laser} from "../Laser/Laser";
 import {PlayerConsts} from "../../common/consts/PlayerConsts";
 import {GameConsts} from "../../common/consts/GameConsts";
 import {PositionDataType} from "../../common/types/PositionDataType";
-// import {_ComponentPositionType} from "../../common/types/_ComponentPositionType";
 
 /**
  * プレイヤーのレーザーを管理します

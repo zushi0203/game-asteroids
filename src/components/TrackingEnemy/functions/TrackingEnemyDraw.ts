@@ -1,6 +1,5 @@
 import {GameConsts} from "../../../common/consts/GameConsts";
 import {PlayerConsts} from "../../../common/consts/PlayerConsts";
-// import {_TrackingEnemyStatusType} from "../types/_TrackingEnemyStatusType";
 import {PositionDataType} from "../../../common/types/PositionDataType";
 
 /**
